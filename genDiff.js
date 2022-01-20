@@ -10,7 +10,6 @@ const genDiff = (filepath1, filepath2) => {
   try {
     const file1 = getJSON(filepath1);
     const file2 = getJSON(filepath2);
-    // console.log(compareObjects(JSON.parse(file1), JSON.parse(file2)));
     return compareObjects(JSON.parse(file1), JSON.parse(file2));
   } catch (err) {
     return err.message;
