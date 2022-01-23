@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "compares two configuration files and shows a difference",
   "type": "module",
-  "main": "./genDiff.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "./genDiff.js",  
   "bin": {
     "gendiff": "./bin/gendiff.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -23,7 +26,8 @@
   "devDependencies": {
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.4.5"
   },
   "dependencies": {
     "commander": "^8.3.0",
