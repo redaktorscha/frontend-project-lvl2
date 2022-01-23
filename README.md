@@ -10,6 +10,8 @@
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/redaktorscha/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/redaktorscha/frontend-project-lvl2/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0db86e4fad4d4f1806d0/maintainability)](https://codeclimate.com/github/redaktorscha/frontend-project-lvl2/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/0db86e4fad4d4f1806d0/test_coverage)](https://codeclimate.com/github/redaktorscha/frontend-project-lvl2/test_coverage)
 
 ### Gendiff example (asciinema)
 [![asciicast](https://asciinema.org/a/463165.svg)](https://asciinema.org/a/463165)
