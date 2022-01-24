@@ -1,4 +1,4 @@
-import getJSON from './src/getJSON.js';
+import getParsedObject from './src/getParsedObject.js';
 import compareObjects from './src/compareObjects.js';
 
 /**
@@ -8,9 +8,9 @@ import compareObjects from './src/compareObjects.js';
  */
 const genDiff = (filepath1, filepath2) => {
   try {
-    const file1 = getJSON(filepath1);
-    const file2 = getJSON(filepath2);
-    return compareObjects(JSON.parse(file1), JSON.parse(file2));
+    const obj1 = getParsedObject(filepath1);
+    const obj2 = getParsedObject(filepath2);
+    return compareObjects(obj1, obj2);
   } catch (err) {
     return err.message;
   }
