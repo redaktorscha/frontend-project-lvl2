@@ -1,23 +1,15 @@
-// import fs from 'fs';
-// import { fileURLToPath } from 'url';
-// import path, { dirname } from 'path';
 import {
   test, expect, beforeAll,
 } from '@jest/globals';
-import { readFile } from '../src/utils.js';
+import { getFixturePath, readFile } from '../src/utils.js';
 import { compare } from '../src/compareObjects.js';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-// const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-// const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 let obj1;
 let obj2;
 
 beforeAll(() => {
-  obj1 = JSON.parse(readFile('file1.json'));
-  obj2 = JSON.parse(readFile('file2.json'));
+  obj1 = JSON.parse(readFile('file1.json', getFixturePath));
+  obj2 = JSON.parse(readFile('file2.json', getFixturePath));
 });
 
 test('prop removed from 2nd obj', () => {

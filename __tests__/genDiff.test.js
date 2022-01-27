@@ -1,21 +1,34 @@
-// import fs from 'fs';
-// import { fileURLToPath } from 'url';
-// import path, { dirname } from 'path';
 import {
-  it, test, expect, describe,
+  it,
+  test,
+  expect,
+  describe,
 } from '@jest/globals';
+
 import { getFixturePath, readFile } from '../src/utils.js';
 import genDiff from '../genDiff.js';
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-// const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-// const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+describe('basic functionality', () => {
+  let fixtureString;
 
-it('returns diff string', () => {
-  const fixtureStr = readFile('diff');
-  const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
-  expect(result).toBe(fixtureStr);
+  beforeAll(() => {
+    fixtureString = readFile('diff', getFixturePath);
+  });
+
+  it('returns diff string when parsing JSON', () => {
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
+    expect(result).toBe(fixtureString);
+  });
+
+  it('returns diff string when parsing YAML', () => {
+    const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'));
+    expect(result).toBe(fixtureString);
+  });
+
+  it('returns diff string when comparing JSON with YAML', () => {
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
+    expect(result).toBe(fixtureString);
+  });
 });
 
 describe('genDiff errors', () => {
@@ -31,5 +44,17 @@ describe('genDiff errors', () => {
 
   test('both arguments missing', () => {
     expect(genDiff()).toBe('Missing required argument(s) <filepath1> <filepath2>');
+  });
+
+  test('bad file', () => {
+    const incorrectFileWarning = 'Incorrect file';
+    const result = genDiff(getFixturePath('file1.yml'), getFixturePath('bad2.yml'));
+    expect(result).toEqual(expect.stringContaining(incorrectFileWarning));
+  });
+
+  test('wrong file format', () => {
+    const wrongFormatWarning = 'Wrong file format';
+    const result = genDiff(getFixturePath('cat1.png'), getFixturePath('cat2.jpg'));
+    expect(result).toEqual(expect.stringContaining(wrongFormatWarning));
   });
 });
