@@ -1,4 +1,4 @@
-import getParsedObject from './src/getParsedObject.js';
+import getParsedObject from './src/parsers.js';
 import { compareObjects } from './src/compareObjects.js';
 
 /**
