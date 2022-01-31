@@ -5,6 +5,9 @@ env:
 extends:
   - airbnb-base
   - 'plugin:jest/recommended'
+  - prettier
+plugins:
+  - prettier
 parserOptions:
   ecmaVersion: 2020
   sourceType: module
@@ -14,4 +17,9 @@ rules:
     - error
     - ignorePackages
     - js: always
-  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }] 
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
+  prettier/prettier: [ 2 , {
+      "singleQuote": true,
+      "trailingComma": "all",
+      "printWidth": 120
+    }]
