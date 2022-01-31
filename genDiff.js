@@ -1,5 +1,5 @@
 import getParsedObject from './src/parsers.js';
-import { compareObjects } from './src/compareObjects.js';
+import compareObjects from './src/compareObjects.js';
 
 /**
  * @param {string} filepath1
