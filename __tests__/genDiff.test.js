@@ -1,9 +1,4 @@
-import {
-  it,
-  test,
-  expect,
-  describe,
-} from '@jest/globals';
+import { it, test, expect, describe } from '@jest/globals';
 
 import { getFixturePath, readFile } from '../src/utils.js';
 import genDiff from '../genDiff.js';
