@@ -1,7 +1,5 @@
-// import { readFileSync } from 'fs';
 import { isObject } from './utils.js';
 
-// const ar = JSON.parse(readFileSync('./__fixtures__/test2', 'utf-8'));
 const indent = 4;
 
 /**

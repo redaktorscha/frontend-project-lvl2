@@ -1,4 +1,3 @@
-// import { writeFileSync } from 'fs';
 import getParsedObject from './src/parsers.js';
 import compareObjects from './src/compareObjects.js';
 import stylish from './src/formatters.js';
@@ -19,8 +18,6 @@ const genDiff = (filepath1, filepath2, formatterName = 'stylish') => {
     }
     const obj1 = getParsedObject(filepath1);
     const obj2 = getParsedObject(filepath2);
-    // const ret = compareObjects(obj1, obj2);
-    // writeFileSync('test2', JSON.stringify(ret), 'utf-8');
     return formatter(compareObjects(obj1, obj2));
   } catch (err) {
     return err.message;

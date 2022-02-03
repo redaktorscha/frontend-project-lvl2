@@ -1,12 +1,6 @@
-// import { fileURLToPath } from 'url';
-// import path, { dirname } from 'path';
 import { test, expect, describe } from '@jest/globals';
 import { getFixturePath } from '../src/utils.js';
 import getParsedObject from '../src/parsers.js';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-// const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 describe('basic functionality', () => {
   let fixtureObj;

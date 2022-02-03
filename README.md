@@ -19,3 +19,6 @@
 
 #### YAML diff
 [![asciicast](https://asciinema.org/a/464892.svg)](https://asciinema.org/a/464892)
+
+#### Nested Objects diff
+[![asciicast](https://asciinema.org/a/466529.svg)](https://asciinema.org/a/466529)

@@ -18,7 +18,7 @@ const compareObjects = (obj1, obj2) => {
 
     if (isObject(obj1[key]) && isObject(obj2[key])) {
       meta.isNested = true;
-      return { key, values: compareObjects(obj1[key], obj2[key]), meta }; // [{ key, values[], meta }];
+      return { key, values: compareObjects(obj1[key], obj2[key]), meta };
     }
     meta.isNested = false;
     let values;
