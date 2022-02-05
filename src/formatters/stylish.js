@@ -1,4 +1,4 @@
-import { isObject } from './utils.js';
+import { isObject } from '../utils.js';
 
 const indent = 4;
 

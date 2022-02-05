@@ -10,7 +10,8 @@ const cli = () => {
     .version('1.0.0', '-V, --version', 'output the version number')
     .option('-f, --format <type>', 'output format', 'stylish')
     .action((path1, path2) => {
-      console.log(genDiff(path1, path2));
+      const formatter = program.opts().format;
+      console.log(genDiff(path1, path2, formatter));
     });
   program.parse();
 
