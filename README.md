@@ -22,3 +22,6 @@
 
 #### Nested Objects diff
 [![asciicast](https://asciinema.org/a/466529.svg)](https://asciinema.org/a/466529)
+
+#### Formatters
+[![asciicast](https://asciinema.org/a/466883.svg)](https://asciinema.org/a/466883)
