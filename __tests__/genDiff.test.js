@@ -34,17 +34,17 @@ describe('basic functionality, formatter plain', () => {
   });
 
   it('returns diff string when comparing JSON to JSON', () => {
-    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain');
     expect(result).toBe(fixtureStringPlain);
   });
 
   it('returns diff string when comparing YAML to YAML', () => {
-    const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'));
+    const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'plain');
     expect(result).toBe(fixtureStringPlain);
   });
 
   it('returns diff string when comparing JSON to YAML', () => {
-    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'plain');
     expect(result).toBe(fixtureStringPlain);
   });
 });

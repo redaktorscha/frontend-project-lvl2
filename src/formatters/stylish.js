@@ -34,6 +34,7 @@ const stylish = (diffArr) => {
    * @param {number} depth
    */
   const recLog = (arr, depth) => {
+    // naming!
     const result = arr.map((elem) => {
       const { key, values, meta } = elem;
       const { wasAdded, wasRemoved, wasUpdated, isNested } = meta;
@@ -55,7 +56,7 @@ const stylish = (diffArr) => {
       }
       return `${makeTab(depth)}${key}: ${value1}`;
     });
-    return `${result.join('\n')}`;
+    return `${result.join('\n')}`; // result.join('\n')
   };
   return `{\n${recLog(diffArr, indent)}\n}`;
 };
