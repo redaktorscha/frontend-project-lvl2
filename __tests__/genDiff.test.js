@@ -3,26 +3,49 @@ import { it, test, expect, describe } from '@jest/globals';
 import { getFixturePath, readFile } from '../src/utils.js';
 import genDiff from '../genDiff.js';
 
-describe('basic functionality', () => {
-  let fixtureString;
+describe('basic functionality, default formatter (stylish)', () => {
+  let fixtureStringStylish;
 
   beforeAll(() => {
-    fixtureString = readFile('diff', getFixturePath);
+    fixtureStringStylish = readFile('diffStylish', getFixturePath).trim();
   });
 
-  it('returns diff string when parsing JSON', () => {
+  it('returns diff string when comparing JSON to JSON', () => {
     const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
-    expect(result).toBe(fixtureString);
+    expect(result).toBe(fixtureStringStylish);
   });
 
-  it('returns diff string when parsing YAML', () => {
+  it('returns diff string when comparing YAML to YAML', () => {
     const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'));
-    expect(result).toBe(fixtureString);
+    expect(result).toBe(fixtureStringStylish);
   });
 
-  it('returns diff string when comparing JSON with YAML', () => {
+  it('returns diff string when comparing JSON to YAML', () => {
     const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
-    expect(result).toBe(fixtureString);
+    expect(result).toBe(fixtureStringStylish);
+  });
+});
+
+describe('basic functionality, formatter plain', () => {
+  let fixtureStringPlain;
+
+  beforeAll(() => {
+    fixtureStringPlain = readFile('diffPlain', getFixturePath);
+  });
+
+  it('returns diff string when comparing JSON to JSON', () => {
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
+    expect(result).toBe(fixtureStringPlain);
+  });
+
+  it('returns diff string when comparing YAML to YAML', () => {
+    const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'));
+    expect(result).toBe(fixtureStringPlain);
+  });
+
+  it('returns diff string when comparing JSON to YAML', () => {
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
+    expect(result).toBe(fixtureStringPlain);
   });
 });
 
