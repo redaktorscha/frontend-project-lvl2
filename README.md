@@ -23,5 +23,8 @@
 #### Nested Objects diff
 [![asciicast](https://asciinema.org/a/466529.svg)](https://asciinema.org/a/466529)
 
-#### Formatters
+#### Formatters Stylish default) and Plain
 [![asciicast](https://asciinema.org/a/466883.svg)](https://asciinema.org/a/466883)
+
+#### Formatter JSON
+[![asciicast](https://asciinema.org/a/467097.svg)](https://asciinema.org/a/467097)
