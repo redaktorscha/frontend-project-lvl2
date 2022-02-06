@@ -19,7 +19,7 @@ export const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtur
 export const getAbsFilePath = (filepath) => path.resolve(filepath);
 
 /**
- * @param {string} file name or path
+ * @param {string} file
  * @param {Function} fn
  * @returns {string}
  */
