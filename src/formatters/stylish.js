@@ -63,7 +63,7 @@ const stylish = (diffArr) => {
       const { key, children } = elem;
       return `${makeTab(depth)}${key}: {\n${recursiveStringify(children, depth + indent)}\n${makeTab(depth)}}`;
     });
-    return `${result.join('\n')}`; // result.join('\n')
+    return result.join('\n');
   };
   return `{\n${recursiveStringify(diffArr, indent)}\n}`;
 };
