@@ -49,6 +49,29 @@ describe('basic functionality, formatter plain', () => {
   });
 });
 
+describe('basic functionality, formatter json', () => {
+  let fixtureStringJson;
+
+  beforeEach(() => {
+    fixtureStringJson = readFile('diffJson', getFixturePath);
+  });
+
+  it('returns diff string when comparing JSON to JSON', () => {
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json');
+    expect(result).toBe(fixtureStringJson);
+  });
+
+  it('returns diff string when comparing YAML to YAML', () => {
+    const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'json');
+    expect(result).toBe(fixtureStringJson);
+  });
+
+  it('returns diff string when comparing JSON to YAML', () => {
+    const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'json');
+    expect(result).toBe(fixtureStringJson);
+  });
+});
+
 describe('genDiff errors', () => {
   test('wrong filepath', () => {
     const noEntWarning = 'NOENT: no such file or directory';
