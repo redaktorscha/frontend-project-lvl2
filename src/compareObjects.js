@@ -13,26 +13,23 @@ const compareObjects = (obj1, obj2) => {
     const wasRemoved = !_.has(obj2, key);
     const wasUpdated =
       _.has(obj2, key) && _.has(obj1, key) && obj2[key] !== obj1[key] && !(isObject(obj1[key]) && isObject(obj2[key]));
-    let isNested;
-    const meta = { wasAdded, wasRemoved, wasUpdated, isNested };
+
+    const meta = { wasAdded, wasRemoved, wasUpdated };
 
     if (isObject(obj1[key]) && isObject(obj2[key])) {
-      meta.isNested = true;
-      return { key, values: compareObjects(obj1[key], obj2[key]), meta };
+      return { key, values: [], children: compareObjects(obj1[key], obj2[key]), meta };
     }
-    meta.isNested = false;
-    let values;
 
     if (wasAdded) {
-      values = [obj2[key]];
-    } else if (wasRemoved) {
-      values = [obj1[key]];
-    } else if (wasUpdated) {
-      values = [obj1[key], obj2[key]];
-    } else {
-      values = [obj1[key]];
+      return { key, values: [obj2[key]], meta };
     }
-    return { key, values, meta };
+    if (wasRemoved) {
+      return { key, values: [obj1[key]], meta };
+    }
+    if (wasUpdated) {
+      return { key, values: [obj1[key], obj2[key]], meta };
+    }
+    return { key, values: [obj1[key]], meta };
   });
   return result;
 };

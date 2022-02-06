@@ -1,93 +1,198 @@
 const diffArr = [
   {
     key: 'common',
-    meta: { isNested: true, wasAdded: false, wasRemoved: false, wasUpdated: false },
-    values: [
+    values: [],
+    children: [
       {
         key: 'follow',
-        meta: { isNested: false, wasAdded: true, wasRemoved: false, wasUpdated: false },
         values: [false],
+        meta: {
+          wasAdded: true,
+          wasRemoved: false,
+          wasUpdated: false,
+        },
       },
       {
         key: 'setting1',
-        meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: false },
         values: ['Value 1'],
+        meta: {
+          wasAdded: false,
+          wasRemoved: false,
+          wasUpdated: false,
+        },
       },
       {
         key: 'setting2',
-        meta: { isNested: false, wasAdded: false, wasRemoved: true, wasUpdated: false },
         values: [200],
+        meta: {
+          wasAdded: false,
+          wasRemoved: true,
+          wasUpdated: false,
+        },
       },
       {
         key: 'setting3',
-        meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: true },
         values: [true, null],
+        meta: {
+          wasAdded: false,
+          wasRemoved: false,
+          wasUpdated: true,
+        },
       },
       {
         key: 'setting4',
-        meta: { isNested: false, wasAdded: true, wasRemoved: false, wasUpdated: false },
         values: ['blah blah'],
+        meta: {
+          wasAdded: true,
+          wasRemoved: false,
+          wasUpdated: false,
+        },
       },
       {
         key: 'setting5',
-        meta: { isNested: false, wasAdded: true, wasRemoved: false, wasUpdated: false },
-        values: [{ key5: 'value5' }],
+        values: [
+          {
+            key5: 'value5',
+          },
+        ],
+        meta: {
+          wasAdded: true,
+          wasRemoved: false,
+          wasUpdated: false,
+        },
       },
       {
         key: 'setting6',
-        meta: { isNested: true, wasAdded: false, wasRemoved: false, wasUpdated: false },
-        values: [
+        values: [],
+        children: [
           {
             key: 'doge',
-            meta: { isNested: true, wasAdded: false, wasRemoved: false, wasUpdated: false },
-            values: [
+            values: [],
+            children: [
               {
                 key: 'wow',
-                meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: true },
                 values: ['', 'so much'],
+                meta: {
+                  wasAdded: false,
+                  wasRemoved: false,
+                  wasUpdated: true,
+                },
               },
             ],
+            meta: {
+              wasAdded: false,
+              wasRemoved: false,
+              wasUpdated: false,
+            },
           },
           {
             key: 'key',
-            meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: false },
             values: ['value'],
+            meta: {
+              wasAdded: false,
+              wasRemoved: false,
+              wasUpdated: false,
+            },
           },
           {
             key: 'ops',
-            meta: { isNested: false, wasAdded: true, wasRemoved: false, wasUpdated: false },
             values: ['vops'],
+            meta: {
+              wasAdded: true,
+              wasRemoved: false,
+              wasUpdated: false,
+            },
           },
         ],
+        meta: {
+          wasAdded: false,
+          wasRemoved: false,
+          wasUpdated: false,
+        },
       },
     ],
+    meta: {
+      wasAdded: false,
+      wasRemoved: false,
+      wasUpdated: false,
+    },
   },
   {
     key: 'group1',
-    meta: { isNested: true, wasAdded: false, wasRemoved: false, wasUpdated: false },
-    values: [
+    values: [],
+    children: [
       {
         key: 'baz',
-        meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: true },
         values: ['bas', 'bars'],
+        meta: {
+          wasAdded: false,
+          wasRemoved: false,
+          wasUpdated: true,
+        },
       },
-      { key: 'foo', meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: false }, values: ['bar'] },
+      {
+        key: 'foo',
+        values: ['bar'],
+        meta: {
+          wasAdded: false,
+          wasRemoved: false,
+          wasUpdated: false,
+        },
+      },
       {
         key: 'nest',
-        meta: { isNested: false, wasAdded: false, wasRemoved: false, wasUpdated: true },
-        values: [{ key: 'value' }, 'str'],
+        values: [
+          {
+            key: 'value',
+          },
+          'str',
+        ],
+        meta: {
+          wasAdded: false,
+          wasRemoved: false,
+          wasUpdated: true,
+        },
       },
     ],
+    meta: {
+      wasAdded: false,
+      wasRemoved: false,
+      wasUpdated: false,
+    },
   },
   {
     key: 'group2',
-    meta: { isNested: false, wasAdded: false, wasRemoved: true, wasUpdated: false },
-    values: [{ abc: 12345, deep: { id: 45 } }],
+    values: [
+      {
+        abc: 12345,
+        deep: {
+          id: 45,
+        },
+      },
+    ],
+    meta: {
+      wasAdded: false,
+      wasRemoved: true,
+      wasUpdated: false,
+    },
   },
   {
     key: 'group3',
-    meta: { isNested: false, wasAdded: true, wasRemoved: false, wasUpdated: false },
-    values: [{ deep: { id: { number: 45 } }, fee: 100500 }],
+    values: [
+      {
+        deep: {
+          id: {
+            number: 45,
+          },
+        },
+        fee: 100500,
+      },
+    ],
+    meta: {
+      wasAdded: true,
+      wasRemoved: false,
+      wasUpdated: false,
+    },
   },
 ];
 

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { isObject } from '../utils.js';
 
 /**
@@ -23,9 +24,9 @@ const plain = (diffArr) => {
    */
   const recursiveStringify = (arr, accumulator, depth) => {
     const result = arr.map((elem) => {
-      const { key, values, meta } = elem;
-      const { wasAdded, wasRemoved, wasUpdated, isNested } = meta;
-      if (!isNested) {
+      if (!_.has(elem, 'children')) {
+        const { key, values, meta } = elem;
+        const { wasAdded, wasRemoved, wasUpdated } = meta;
         const [value1, value2] = values;
         const stringifiedValue1 = stringifyValue(value1);
         const stringifiedValue2 = stringifyValue(value2);
@@ -41,7 +42,8 @@ const plain = (diffArr) => {
         }
         return '';
       }
-      return recursiveStringify(values, [...accumulator, key], depth + 1);
+      const { key, children } = elem;
+      return recursiveStringify(children, [...accumulator, key], depth + 1);
     });
     return result.filter((el) => el.length).join('\n');
   };

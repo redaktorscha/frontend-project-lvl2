@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { isObject } from '../utils.js';
 
 const indent = 4;
@@ -13,10 +14,10 @@ const makeTab = (tabSize) => ' '.repeat(tabSize);
  * @param {number} depth
  * @returns {string}
  */
-const stringify = (obj, depth) => {
+const stringifyObject = (obj, depth) => {
   const result = Object.keys(obj).map((key) => {
     if (isObject(obj[key])) {
-      return `${makeTab(depth)}${key}: {\n${stringify(obj[key], depth + indent)}\n${makeTab(depth)}}`;
+      return `${makeTab(depth)}${key}: {\n${stringifyObject(obj[key], depth + indent)}\n${makeTab(depth)}}`;
     }
     return `${makeTab(depth)}${key}: ${obj[key]}`;
   });
@@ -33,32 +34,38 @@ const stylish = (diffArr) => {
    * @param {Object} arr
    * @param {number} depth
    */
-  const recLog = (arr, depth) => {
-    // naming!
+  const recursiveStringify = (arr, depth) => {
     const result = arr.map((elem) => {
-      const { key, values, meta } = elem;
-      const { wasAdded, wasRemoved, wasUpdated, isNested } = meta;
-      if (isNested) {
-        return `${makeTab(depth)}${key}: {\n${recLog(values, depth + indent)}\n${makeTab(depth)}}`;
-      }
+      if (!_.has(elem, 'children')) {
+        const { key, values, meta } = elem;
+        const { wasAdded, wasRemoved, wasUpdated } = meta;
+        const [value1, value2] = values;
+        const stringifiedValue1 = isObject(value1)
+          ? `{\n${stringifyObject(value1, depth + indent)}\n${makeTab(depth)}}`
+          : value1;
+        const stringifiedValue2 = isObject(value2)
+          ? `{\n${stringifyObject(value2, depth + indent)}\n${makeTab(depth)}}`
+          : value2;
 
-      let [value1, value2] = values;
-      value1 = isObject(value1) ? `{\n${stringify(value1, depth + indent)}\n${makeTab(depth)}}` : value1;
-      value2 = isObject(value2) ? `{\n${stringify(value2, depth + indent)}\n${makeTab(depth)}}` : value2;
-      if (wasAdded) {
-        return `${makeTab(depth - tagSize)}+ ${key}: ${value1}`;
+        if (wasAdded) {
+          return `${makeTab(depth - tagSize)}+ ${key}: ${stringifiedValue1}`;
+        }
+        if (wasRemoved) {
+          return `${makeTab(depth - tagSize)}- ${key}: ${stringifiedValue1}`;
+        }
+        if (wasUpdated) {
+          return `${makeTab(depth - tagSize)}- ${key}: ${stringifiedValue1}\n${makeTab(
+            depth - tagSize,
+          )}+ ${key}: ${stringifiedValue2}`;
+        }
+        return `${makeTab(depth)}${key}: ${value1}`;
       }
-      if (wasRemoved) {
-        return `${makeTab(depth - tagSize)}- ${key}: ${value1}`;
-      }
-      if (wasUpdated) {
-        return `${makeTab(depth - tagSize)}- ${key}: ${value1}\n${makeTab(depth - tagSize)}+ ${key}: ${value2}`;
-      }
-      return `${makeTab(depth)}${key}: ${value1}`;
+      const { key, children } = elem;
+      return `${makeTab(depth)}${key}: {\n${recursiveStringify(children, depth + indent)}\n${makeTab(depth)}}`;
     });
     return `${result.join('\n')}`; // result.join('\n')
   };
-  return `{\n${recLog(diffArr, indent)}\n}`;
+  return `{\n${recursiveStringify(diffArr, indent)}\n}`;
 };
 
 export default stylish;
