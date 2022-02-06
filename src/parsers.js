@@ -8,15 +8,13 @@ import { readFile, getAbsFilePath } from './utils.js';
  * @returns {Object | Error}
  */
 const parser = (format, content) => {
-  let parsingFn;
   if (format === '.json') {
-    parsingFn = JSON.parse;
-  } else if (format === '.yml' || format === '.yaml') {
-    parsingFn = YAML.parse;
-  } else {
-    throw new Error('Wrong file format');
+    return JSON.parse(content);
   }
-  return parsingFn(content);
+  if (format === '.yml' || format === '.yaml') {
+    return YAML.parse(content);
+  }
+  throw new Error('Wrong file format');
 };
 
 /**

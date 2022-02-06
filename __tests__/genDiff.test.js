@@ -29,7 +29,7 @@ describe('basic functionality, default formatter (stylish)', () => {
 describe('basic functionality, formatter plain', () => {
   let fixtureStringPlain;
 
-  beforeAll(() => {
+  beforeEach(() => {
     fixtureStringPlain = readFile('diffPlain', getFixturePath);
   });
 

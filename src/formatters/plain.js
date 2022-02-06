@@ -2,6 +2,7 @@ import { isObject } from '../utils.js';
 
 /**
  * @param {*} val
+ * @returns {string}
  */
 const stringifyValue = (val) => {
   if (!isObject(val)) {
@@ -25,18 +26,18 @@ const plain = (diffArr) => {
       const { key, values, meta } = elem;
       const { wasAdded, wasRemoved, wasUpdated, isNested } = meta;
       if (!isNested) {
-        let [value1, value2] = values;
-        value1 = stringifyValue(value1);
-        value2 = stringifyValue(value2);
+        const [value1, value2] = values;
+        const stringifiedValue1 = stringifyValue(value1);
+        const stringifiedValue2 = stringifyValue(value2);
         const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
         if (wasAdded) {
-          return `Property ${currentKey} was added with value: ${value1}`;
+          return `Property ${currentKey} was added with value: ${stringifiedValue1}`;
         }
         if (wasRemoved) {
           return `Property ${currentKey} was removed`;
         }
         if (wasUpdated) {
-          return `Property ${currentKey} was updated. From ${value1} to ${value2}`;
+          return `Property ${currentKey} was updated. From ${stringifiedValue1} to ${stringifiedValue2}`;
         }
         return '';
       }

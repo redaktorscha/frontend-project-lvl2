@@ -1,24 +1,22 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
+import json from './json.js';
 
-const formatters = ['stylish', 'plain'];
+const formatters = {
+  stylish,
+  plain,
+  json,
+};
 
 /**
  * @param {string} formatterName
  * @returns {Function|Error}
  */
 const chooseFormatter = (formatterName) => {
-  if (!formatters.includes(formatterName)) {
+  if (!Object.keys(formatters).includes(formatterName)) {
     throw new Error(`Formatter not supported: "${formatterName}"`);
   }
-  let formatter;
-  if (formatterName === 'stylish') {
-    formatter = stylish;
-  }
-  if (formatterName === 'plain') {
-    formatter = plain;
-  }
-  return formatter;
+  return formatters[formatterName];
 };
 
 export default chooseFormatter;
