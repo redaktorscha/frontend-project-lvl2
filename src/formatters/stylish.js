@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import _ from 'lodash';
 import { isObject } from '../utils.js';
 

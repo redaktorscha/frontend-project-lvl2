@@ -24,10 +24,4 @@ rules:
         "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }]
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
-  prettier/prettier: [ 2 , {
-      "singleQuote": true,
-      "trailingComma": "all",
-      "printWidth": 100,
-      "arrow-body-style": "off",
-      "prefer-arrow-callback": "off"
-    }]
+  prettier/prettier: "off"
