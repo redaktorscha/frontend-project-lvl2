@@ -1,9 +1,4 @@
-// eslint-disable-next-line prettier/prettier
-import {
-  test,
-  expect,
-  describe,
-} from '@jest/globals';
+import { test, expect, describe } from '@jest/globals';
 
 import { getFixturePath, readFile } from '../src/utils.js';
 import genDiff from '../genDiff.js';
@@ -87,9 +82,17 @@ describe('working with built-in formatters', () => {
       expectedResult: fixtureStringJson,
     },
   ])(
-    'should return a diff string when comparing $fileFormat1 with $fileFormat2 formatted with $formatterName formatter',
-    ({ fileName1, fileName2, formatterName, expectedResult }) => {
-      expect(genDiff(getFixturePath(fileName1), getFixturePath(fileName2), formatterName)).toEqual(expectedResult);
+    'should return a diff str when comparing $fileFormat1 with $fileFormat2 formatted with $formatterName formatter',
+    // eslint-disable-next-line prettier/prettier
+    ({
+      fileName1,
+      fileName2,
+      formatterName,
+      expectedResult,
+    }) => {
+      expect(genDiff(getFixturePath(fileName1), getFixturePath(fileName2), formatterName)).toEqual(
+        expectedResult,
+      );
     },
   );
 });
@@ -102,7 +105,9 @@ describe('genDiff errors', () => {
   });
 
   test('one filepath missing', () => {
-    expect(genDiff(getFixturePath('fff.json'))).toBe('Missing required argument(s) <filepath1> <filepath2>');
+    expect(genDiff(getFixturePath('fff.json'))).toBe(
+      'Missing required argument(s) <filepath1> <filepath2>',
+    );
   });
 
   test('both arguments missing', () => {

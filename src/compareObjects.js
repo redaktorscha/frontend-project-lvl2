@@ -7,16 +7,18 @@ import { isObject } from './utils.js';
  * @param {string} key
  * @returns {boolean}
  */
-const haveSameKeyButDifferentValue = (object1, object2, key) =>
-  _.has(object1, key) && _.has(object2, key) && object2[key] !== object1[key];
+const haveSameKeyDiffVal = (obj1, obj2, key) => {
+  const haveSameKey = _.has(obj1, key) && _.has(obj2, key);
+  return haveSameKey && obj2[key] !== obj1[key];
+};
 
 /**
- * @param {Object} object1
- * @param {Object} object2
+ * @param {Object} obj1
+ * @param {Object} obj2
  * @param {string} key
  * @returns {boolean}
  */
-const haveBothNestedValues = (object1, object2, key) => isObject(object1[key]) && isObject(object2[key]);
+const haveNestedValues = (obj1, obj2, key) => isObject(obj1[key]) && isObject(obj2[key]);
 /**
  * @param {Object} obj1
  * @param {Object} obj2
@@ -26,11 +28,15 @@ const compareObjects = (obj1, obj2) => {
   const mergedKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
 
   const result = _.sortBy([...mergedKeys], (key) => key).map((key) => {
-    const wasAdded = !_.has(obj1, key);
-    const wasRemoved = !_.has(obj2, key);
-    const wasUpdated = haveSameKeyButDifferentValue(obj1, obj2, key) && !haveBothNestedValues(obj1, obj2, key);
+    const added = !_.has(obj1, key);
+    const removed = !_.has(obj2, key);
+    const updated = haveSameKeyDiffVal(obj1, obj2, key) && !haveNestedValues(obj1, obj2, key);
 
-    const meta = { wasAdded, wasRemoved, wasUpdated };
+    const meta = {
+      added,
+      removed,
+      updated,
+    };
 
     if (isObject(obj1[key]) && isObject(obj2[key])) {
       return {
@@ -41,16 +47,32 @@ const compareObjects = (obj1, obj2) => {
       };
     }
 
-    if (wasAdded) {
-      return { key, values: [obj2[key]], meta };
+    if (added) {
+      return {
+        key,
+        values: [obj2[key]],
+        meta,
+      };
     }
-    if (wasRemoved) {
-      return { key, values: [obj1[key]], meta };
+    if (removed) {
+      return {
+        key,
+        values: [obj1[key]],
+        meta,
+      };
     }
-    if (wasUpdated) {
-      return { key, values: [obj1[key], obj2[key]], meta };
+    if (updated) {
+      return {
+        key,
+        values: [obj1[key], obj2[key]],
+        meta,
+      };
     }
-    return { key, values: [obj1[key]], meta };
+    return {
+      key,
+      values: [obj1[key]],
+      meta,
+    };
   });
   return result;
 };

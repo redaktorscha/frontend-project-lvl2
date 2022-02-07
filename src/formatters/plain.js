@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import _ from 'lodash';
 import { isObject } from '../utils.js';
 
@@ -22,32 +23,43 @@ const plain = (diffArr) => {
    * @param {Array} accumulator
    * @param {number} depth
    */
-  const recursiveStringify = (arr, accumulator, depth) => {
+  const makeDiffString = (arr, accumulator, depth) => {
     const result = arr.map((elem) => {
       if (!_.has(elem, 'children')) {
-        const { key, values, meta } = elem;
-        const { wasAdded, wasRemoved, wasUpdated } = meta;
+        const {
+          key,
+          values,
+          meta
+        } = elem;
+        const {
+          added,
+          removed,
+          updated
+        } = meta;
         const [value1, value2] = values;
         const stringifiedValue1 = stringifyValue(value1);
         const stringifiedValue2 = stringifyValue(value2);
         const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
-        if (wasAdded) {
+        if (added) {
           return `Property ${currentKey} was added with value: ${stringifiedValue1}`;
         }
-        if (wasRemoved) {
+        if (removed) {
           return `Property ${currentKey} was removed`;
         }
-        if (wasUpdated) {
+        if (updated) {
           return `Property ${currentKey} was updated. From ${stringifiedValue1} to ${stringifiedValue2}`;
         }
         return '';
       }
-      const { key, children } = elem;
-      return recursiveStringify(children, [...accumulator, key], depth + 1);
+      const {
+        key,
+        children
+      } = elem;
+      return makeDiffString(children, [...accumulator, key], depth + 1);
     });
     return result.filter((el) => el.length).join('\n');
   };
 
-  return recursiveStringify(diffArr, [], 1);
+  return makeDiffString(diffArr, [], 1);
 };
 export default plain;

@@ -31,8 +31,16 @@ describe('basic functionality', () => {
   };
 
   test.each([
-    { fileName: 'file1.json', format: 'json', expectedResult: fixtureObj },
-    { fileName: 'file1.yaml', format: 'yaml', expectedResult: fixtureObj },
+    {
+      fileName: 'file1.json',
+      format: 'json',
+      expectedResult: fixtureObj,
+    },
+    {
+      fileName: 'file1.yaml',
+      format: 'yaml',
+      expectedResult: fixtureObj,
+    },
   ])('should return parsed $format', ({ fileName, expectedResult }) => {
     expect(getParsedObject(getFixturePath(fileName))).toEqual(expectedResult);
   });
