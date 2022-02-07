@@ -3,45 +3,38 @@ import { getFixturePath } from '../src/utils.js';
 import getParsedObject from '../src/parsers.js';
 
 describe('basic functionality', () => {
-  let fixtureObj;
-
-  beforeAll(() => {
-    fixtureObj = {
-      common: {
-        setting1: 'Value 1',
-        setting2: 200,
-        setting3: true,
-        setting6: {
-          key: 'value',
-          doge: {
-            wow: '',
-          },
+  const fixtureObj = {
+    common: {
+      setting1: 'Value 1',
+      setting2: 200,
+      setting3: true,
+      setting6: {
+        key: 'value',
+        doge: {
+          wow: '',
         },
       },
-      group1: {
-        baz: 'bas',
-        foo: 'bar',
-        nest: {
-          key: 'value',
-        },
+    },
+    group1: {
+      baz: 'bas',
+      foo: 'bar',
+      nest: {
+        key: 'value',
       },
-      group2: {
-        abc: 12345,
-        deep: {
-          id: 45,
-        },
+    },
+    group2: {
+      abc: 12345,
+      deep: {
+        id: 45,
       },
-    };
-  });
+    },
+  };
 
-  it('should return parsed json', () => {
-    const parsedObj = getParsedObject(getFixturePath('file1.json'));
-    expect(parsedObj).toEqual(fixtureObj);
-  });
-
-  it('should return parsed yaml', () => {
-    const parsedObj = getParsedObject(getFixturePath('file1.yml'));
-    expect(parsedObj).toEqual(fixtureObj);
+  test.each([
+    { fileName: 'file1.json', format: 'json', expectedResult: fixtureObj },
+    { fileName: 'file1.yaml', format: 'yaml', expectedResult: fixtureObj },
+  ])('should return parsed $format', ({ fileName, expectedResult }) => {
+    expect(getParsedObject(getFixturePath(fileName))).toEqual(expectedResult);
   });
 });
 
