@@ -9,7 +9,7 @@ const stringifyValue = (val) => {
   if (!isObject(val)) {
     return typeof val === 'string' ? `'${val}'` : `${val}`;
   }
-  return `[complex value]`;
+  return '[complex value]';
 };
 
 /**
