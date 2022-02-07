@@ -5,9 +5,6 @@ env:
 extends:
   - airbnb-base
   - 'plugin:jest/recommended'
-  - eslint-config-prettier
-plugins:
-  - eslint-plugin-prettier
 parserOptions:
   ecmaVersion: 2020
   sourceType: module
@@ -21,7 +18,7 @@ rules:
         "ObjectExpression": "always",
         "ObjectPattern": { "multiline": true, "minProperties": 3 },
         "ImportDeclaration": "never",
-        "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+        "ExportDeclaration": "never"
     }]
+  max-len: ["error", { "code": 100 }]
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
-  prettier/prettier: "off"

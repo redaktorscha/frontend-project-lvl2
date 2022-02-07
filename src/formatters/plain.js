@@ -26,34 +26,27 @@ const plain = (diffArr) => {
     const result = arr.map((elem) => {
       if (!_.has(elem, 'children')) {
         const {
-          key,
-          values,
-          meta
+          key, values, meta,
         } = elem;
         const {
-          added,
-          removed,
-          updated
+          added, removed, updated,
         } = meta;
         const [value1, value2] = values;
-        const stringifiedValue1 = stringifyValue(value1);
-        const stringifiedValue2 = stringifyValue(value2);
+        const strVal1 = stringifyValue(value1);
+        const strVal2 = stringifyValue(value2);
         const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
         if (added) {
-          return `Property ${currentKey} was added with value: ${stringifiedValue1}`;
+          return `Property ${currentKey} was added with value: ${strVal1}`;
         }
         if (removed) {
           return `Property ${currentKey} was removed`;
         }
         if (updated) {
-          return `Property ${currentKey} was updated. From ${stringifiedValue1} to ${stringifiedValue2}`;
+          return `Property ${currentKey} was updated. From ${strVal1} to ${strVal2}`;
         }
         return '';
       }
-      const {
-        key,
-        children
-      } = elem;
+      const { key, children } = elem;
       return makeDiffString(children, [...accumulator, key], depth + 1);
     });
     return result.filter((el) => el.length).join('\n');

@@ -84,10 +84,7 @@ describe('working with built-in formatters', () => {
   ])(
     'should return a diff str when comparing $format1 with $format2 formatted with $formatterName',
     ({
-      fileName1,
-      fileName2,
-      formatterName,
-      expectedResult,
+      fileName1, fileName2, formatterName, expectedResult,
     }) => {
       expect(genDiff(getFixturePath(fileName1), getFixturePath(fileName2), formatterName)).toEqual(
         expectedResult,

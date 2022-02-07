@@ -38,22 +38,18 @@ const stylish = (diffArr) => {
     const result = arr.map((elem) => {
       if (!_.has(elem, 'children')) {
         const {
-          key,
-          values,
-          meta
+          key, values, meta,
         } = elem;
         const {
-          added,
-          removed,
-          updated
+          added, removed, updated,
         } = meta;
         const [value1, value2] = values;
-        const stringifiedValue1 = isObject(value1) ?
-          `{\n${stringifyObject(value1, depth + indent)}\n${tab(depth)}}` :
-          value1;
-        const stringifiedValue2 = isObject(value2) ?
-          `{\n${stringifyObject(value2, depth + indent)}\n${tab(depth)}}` :
-          value2;
+        const stringifiedValue1 = isObject(value1)
+          ? `{\n${stringifyObject(value1, depth + indent)}\n${tab(depth)}}`
+          : value1;
+        const stringifiedValue2 = isObject(value2)
+          ? `{\n${stringifyObject(value2, depth + indent)}\n${tab(depth)}}`
+          : value2;
 
         if (added) {
           return `${tab(depth - tagSize)}+ ${key}: ${stringifiedValue1}`;
@@ -68,10 +64,7 @@ const stylish = (diffArr) => {
         }
         return `${tab(depth)}${key}: ${value1}`;
       }
-      const {
-        key,
-        children
-      } = elem;
+      const { key, children } = elem;
       return `${tab(depth)}${key}: {\n${makeDiffString(children, depth + indent)}\n${tab(depth)}}`;
     });
     return result.join('\n');
