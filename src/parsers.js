@@ -8,10 +8,10 @@ import { readFile, getAbsFilePath } from './utils.js';
  * @returns {Object | Error}
  */
 const parser = (format, content) => {
-  if (format === '.json') {
+  if (format === 'json') {
     return JSON.parse(content);
   }
-  if (format === '.yml' || format === '.yaml') {
+  if (format === 'yml' || format === 'yaml') {
     return YAML.parse(content);
   }
   throw new Error('Wrong file format');
@@ -22,7 +22,7 @@ const parser = (format, content) => {
  * @returns {Object | Error}
  */
 const getParsedObject = (filepath) => {
-  const fileFormat = path.extname(filepath);
+  const fileFormat = path.extname(filepath).slice(1);
   try {
     const fileContent = readFile(filepath, getAbsFilePath);
     return parser(fileFormat, fileContent);
