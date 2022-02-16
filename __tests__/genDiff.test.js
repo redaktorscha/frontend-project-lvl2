@@ -1,7 +1,7 @@
 import { test, expect, describe } from '@jest/globals';
 
 import { getFixturePath, readFile } from '../src/utils.js';
-import genDiff from '../genDiff.js';
+import genDiff from '../src/genDiff.js';
 
 describe('working with built-in formatters', () => {
   const fixtureStringStylish = readFile('diffStylish', getFixturePath).trim();

@@ -1,6 +1,6 @@
-import getParsedObject from './src/parsers.js';
-import compareObjects from './src/compareObjects.js';
-import chooseFormatter from './src/formatters/index.js';
+import getParsedObject from './parsers.js';
+import compareObjects from './compareObjects.js';
+import chooseFormatter from './formatters/index.js';
 /**
  * @param {string} filepath1
  * @param {string} filepath2
