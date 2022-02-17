@@ -15,6 +15,3 @@ program
     console.log(genDiff(path1, path2, formatter));
   });
 program.parse();
-
-const userArgs = process.argv.slice(2);
-genDiff(...userArgs);
