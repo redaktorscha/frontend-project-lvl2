@@ -26,22 +26,19 @@ const plain = (diffArr) => {
     const result = arr.map((elem) => {
       if (!_.has(elem, 'children')) {
         const {
-          key, values, meta,
+          key, values, type,
         } = elem;
-        const {
-          added, removed, updated,
-        } = meta;
         const [value1, value2] = values;
         const strVal1 = stringifyValue(value1);
         const strVal2 = stringifyValue(value2);
         const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
-        if (added) {
+        if (type === 'added') {
           return `Property ${currentKey} was added with value: ${strVal1}`;
         }
-        if (removed) {
+        if (type === 'removed') {
           return `Property ${currentKey} was removed`;
         }
-        if (updated) {
+        if (type === 'updated') {
           return `Property ${currentKey} was updated. From ${strVal1} to ${strVal2}`;
         }
         return '';

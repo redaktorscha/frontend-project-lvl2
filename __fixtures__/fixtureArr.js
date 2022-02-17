@@ -5,48 +5,39 @@ const diffArr = [
     children: [
       {
         key: 'follow',
-        values: [false],
-        meta: {
-          added: true,
-          removed: false,
-          updated: false,
-        },
+        values: [
+          false,
+        ],
+        type: 'added',
       },
       {
         key: 'setting1',
-        values: ['Value 1'],
-        meta: {
-          added: false,
-          removed: false,
-          updated: false,
-        },
+        values: [
+          'Value 1',
+        ],
+        type: '',
       },
       {
         key: 'setting2',
-        values: [200],
-        meta: {
-          added: false,
-          removed: true,
-          updated: false,
-        },
+        values: [
+          200,
+        ],
+        type: 'removed',
       },
       {
         key: 'setting3',
-        values: [true, null],
-        meta: {
-          added: false,
-          removed: false,
-          updated: true,
-        },
+        values: [
+          true,
+          null,
+        ],
+        type: 'updated',
       },
       {
         key: 'setting4',
-        values: ['blah blah'],
-        meta: {
-          added: true,
-          removed: false,
-          updated: false,
-        },
+        values: [
+          'blah blah',
+        ],
+        type: 'added',
       },
       {
         key: 'setting5',
@@ -55,11 +46,7 @@ const diffArr = [
             key5: 'value5',
           },
         ],
-        meta: {
-          added: true,
-          removed: false,
-          updated: false,
-        },
+        type: 'added',
       },
       {
         key: 'setting6',
@@ -71,51 +58,34 @@ const diffArr = [
             children: [
               {
                 key: 'wow',
-                values: ['', 'so much'],
-                meta: {
-                  added: false,
-                  removed: false,
-                  updated: true,
-                },
+                values: [
+                  '',
+                  'so much',
+                ],
+                type: 'updated',
               },
             ],
-            meta: {
-              added: false,
-              removed: false,
-              updated: false,
-            },
+            type: '',
           },
           {
             key: 'key',
-            values: ['value'],
-            meta: {
-              added: false,
-              removed: false,
-              updated: false,
-            },
+            values: [
+              'value',
+            ],
+            type: '',
           },
           {
             key: 'ops',
-            values: ['vops'],
-            meta: {
-              added: true,
-              removed: false,
-              updated: false,
-            },
+            values: [
+              'vops',
+            ],
+            type: 'added',
           },
         ],
-        meta: {
-          added: false,
-          removed: false,
-          updated: false,
-        },
+        type: '',
       },
     ],
-    meta: {
-      added: false,
-      removed: false,
-      updated: false,
-    },
+    type: '',
   },
   {
     key: 'group1',
@@ -123,21 +93,18 @@ const diffArr = [
     children: [
       {
         key: 'baz',
-        values: ['bas', 'bars'],
-        meta: {
-          added: false,
-          removed: false,
-          updated: true,
-        },
+        values: [
+          'bas',
+          'bars',
+        ],
+        type: 'updated',
       },
       {
         key: 'foo',
-        values: ['bar'],
-        meta: {
-          added: false,
-          removed: false,
-          updated: false,
-        },
+        values: [
+          'bar',
+        ],
+        type: '',
       },
       {
         key: 'nest',
@@ -147,18 +114,10 @@ const diffArr = [
           },
           'str',
         ],
-        meta: {
-          added: false,
-          removed: false,
-          updated: true,
-        },
+        type: 'updated',
       },
     ],
-    meta: {
-      added: false,
-      removed: false,
-      updated: false,
-    },
+    type: '',
   },
   {
     key: 'group2',
@@ -170,11 +129,7 @@ const diffArr = [
         },
       },
     ],
-    meta: {
-      added: false,
-      removed: true,
-      updated: false,
-    },
+    type: 'removed',
   },
   {
     key: 'group3',
@@ -188,11 +143,7 @@ const diffArr = [
         fee: 100500,
       },
     ],
-    meta: {
-      added: true,
-      removed: false,
-      updated: false,
-    },
+    type: 'added',
   },
 ];
 
