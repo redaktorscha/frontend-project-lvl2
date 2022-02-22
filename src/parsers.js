@@ -27,10 +27,6 @@ const getParsedObject = (filepath) => {
     const fileContent = readFile(filepath, getAbsFilePath);
     return parser(fileFormat, fileContent);
   } catch (err) {
-    if (err.name === 'YAMLParseError') {
-      const yamlErrorMessage = `Incorrect YAML\n${err.message}`;
-      throw new Error(yamlErrorMessage);
-    }
     throw new Error(err.message);
   }
 };
