@@ -23,12 +23,8 @@ const parser = (format, content) => {
  */
 const getParsedObject = (filepath) => {
   const fileFormat = path.extname(filepath).slice(1);
-  try {
-    const fileContent = readFile(filepath, getAbsFilePath);
-    return parser(fileFormat, fileContent);
-  } catch (err) {
-    throw new Error(err.message);
-  }
+  const fileContent = readFile(filepath, getAbsFilePath);
+  return parser(fileFormat, fileContent);
 };
 
 export default getParsedObject;
