@@ -1,6 +1,6 @@
 import path from 'path';
 import YAML from 'yaml';
-import { readFile, getAbsFilePath } from './utils.js';
+import { readFile, getFilePath } from './utils.js';
 
 /**
  * @param {string} format
@@ -21,10 +21,10 @@ const parser = (format, content) => {
  * @param {string} filepath
  * @returns {Object | Error}
  */
-const getParsedObject = (filepath) => {
+const getParsedData = (filepath) => {
   const fileFormat = path.extname(filepath).slice(1);
-  const fileContent = readFile(filepath, getAbsFilePath);
+  const fileContent = readFile(filepath, getFilePath);
   return parser(fileFormat, fileContent);
 };
 
-export default getParsedObject;
+export default getParsedData;

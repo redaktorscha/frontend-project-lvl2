@@ -6,7 +6,7 @@ import _ from 'lodash';
  * @param {string} filepath
  * @returns {string}
  */
-export const getAbsFilePath = (filepath) => path.resolve(filepath);
+export const getFilePath = (filepath) => path.resolve(filepath);
 
 /**
  * @param {string} file

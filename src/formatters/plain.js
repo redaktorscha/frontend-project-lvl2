@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { isObject } from '../utils.js';
 
 /**
@@ -21,34 +20,36 @@ const plain = (diffArr) => {
    * @param {Array} arr
    * @param {Array} accumulator
    * @param {number} depth
+   * @returns {string}
    */
-  const makeDiffString = (arr, accumulator, depth) => {
+  const diffOutput = (arr, accumulator, depth) => {
     const result = arr.map((elem) => {
-      if (!_.has(elem, 'children')) {
-        const {
-          key, values, type,
-        } = elem;
-        const [value1, value2] = values;
-        const strVal1 = stringifyValue(value1);
-        const strVal2 = stringifyValue(value2);
-        const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
-        if (type === 'added') {
-          return `Property ${currentKey} was added with value: ${strVal1}`;
-        }
-        if (type === 'removed') {
-          return `Property ${currentKey} was removed`;
-        }
-        if (type === 'updated') {
-          return `Property ${currentKey} was updated. From ${strVal1} to ${strVal2}`;
-        }
-        return '';
+      const { type } = elem;
+      if (type === 'nested') {
+        const { key, children } = elem;
+        return diffOutput(children, [...accumulator, key], depth + 1);
       }
-      const { key, children } = elem;
-      return makeDiffString(children, [...accumulator, key], depth + 1);
+
+      const {
+        key, value1, value2,
+      } = elem;
+      const strVal1 = stringifyValue(value1);
+      const strVal2 = stringifyValue(value2);
+      const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
+      if (type === 'added') {
+        return `Property ${currentKey} was added with value: ${strVal1}`;
+      }
+      if (type === 'removed') {
+        return `Property ${currentKey} was removed`;
+      }
+      if (type === 'updated') {
+        return `Property ${currentKey} was updated. From ${strVal1} to ${strVal2}`;
+      }
+      return '';
     });
     return result.filter((el) => el.length).join('\n');
   };
 
-  return makeDiffString(diffArr, [], 1);
+  return diffOutput(diffArr, [], 1);
 };
 export default plain;

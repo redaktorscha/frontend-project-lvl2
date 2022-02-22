@@ -1,7 +1,8 @@
-import _ from 'lodash';
 import { isObject } from '../utils.js';
 
 const indent = 4;
+
+const tagSize = 2;
 
 /**
  * @param {number} tabSize
@@ -29,44 +30,46 @@ const stringifyObject = (obj, depth) => {
  * @returns {string}
  */
 const stylish = (diffArr) => {
-  const tagSize = 2;
   /**
    * @param {Object} arr
    * @param {number} depth
+   * @returns {string}
    */
-  const makeDiffString = (arr, depth) => {
+  const diffOutput = (arr, depth) => {
     const result = arr.map((elem) => {
-      if (!_.has(elem, 'children')) {
-        const {
-          key, values, type,
-        } = elem;
-        const [value1, value2] = values;
-        const stringifiedValue1 = isObject(value1)
-          ? `{\n${stringifyObject(value1, depth + indent)}\n${tab(depth)}}`
-          : value1;
-        const stringifiedValue2 = isObject(value2)
-          ? `{\n${stringifyObject(value2, depth + indent)}\n${tab(depth)}}`
-          : value2;
+      const { type } = elem;
 
-        if (type === 'added') {
-          return `${tab(depth - tagSize)}+ ${key}: ${stringifiedValue1}`;
-        }
-        if (type === 'removed') {
-          return `${tab(depth - tagSize)}- ${key}: ${stringifiedValue1}`;
-        }
-        if (type === 'updated') {
-          return `${tab(depth - tagSize)}- ${key}: ${stringifiedValue1}\n${tab(
-            depth - tagSize,
-          )}+ ${key}: ${stringifiedValue2}`;
-        }
-        return `${tab(depth)}${key}: ${value1}`;
+      if (type === 'nested') {
+        const { key, children } = elem;
+        return `${tab(depth)}${key}: {\n${diffOutput(children, depth + indent)}\n${tab(depth)}}`;
       }
-      const { key, children } = elem;
-      return `${tab(depth)}${key}: {\n${makeDiffString(children, depth + indent)}\n${tab(depth)}}`;
+
+      const {
+        key, value1, value2,
+      } = elem;
+      const strVal1 = isObject(value1)
+        ? `{\n${stringifyObject(value1, depth + indent)}\n${tab(depth)}}`
+        : value1;
+      const strVal2 = isObject(value2)
+        ? `{\n${stringifyObject(value2, depth + indent)}\n${tab(depth)}}`
+        : value2;
+
+      if (type === 'added') {
+        return `${tab(depth - tagSize)}+ ${key}: ${strVal1}`;
+      }
+      if (type === 'removed') {
+        return `${tab(depth - tagSize)}- ${key}: ${strVal1}`;
+      }
+      if (type === 'updated') {
+        return `${tab(depth - tagSize)}- ${key}: ${strVal1}\n${tab(
+          depth - tagSize,
+        )}+ ${key}: ${strVal2}`;
+      }
+      return `${tab(depth)}${key}: ${value1}`;
     });
     return result.join('\n');
   };
-  return `{\n${makeDiffString(diffArr, indent)}\n}`;
+  return `{\n${diffOutput(diffArr, indent)}\n}`;
 };
 
 export default stylish;
