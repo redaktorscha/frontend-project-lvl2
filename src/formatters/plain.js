@@ -1,21 +1,22 @@
-import { isObject } from '../utils.js';
-
 /**
- * @param {*} val
+ * @param {*} value
  * @returns {string}
  */
-const stringifyValue = (val) => {
-  if (!isObject(val)) {
-    return typeof val === 'string' ? `'${val}'` : `${val}`;
+const stringify = (value) => {
+  if (typeof value === 'object' && value !== null) {
+    return '[complex value]';
   }
-  return '[complex value]';
+  if (typeof value === 'string') {
+    return `'${value}'`;
+  }
+  return String(value);
 };
 
 /**
- * @param {Array} diffArr
+ * @param {Array} AST
  * @returns {string}
  */
-const plain = (diffArr) => {
+const plain = (AST) => {
   /**
    * @param {Array} arr
    * @param {Array} accumulator
@@ -24,32 +25,46 @@ const plain = (diffArr) => {
    */
   const diffOutput = (arr, accumulator, depth) => {
     const result = arr.map((elem) => {
-      const { type } = elem;
-      if (type === 'nested') {
-        const { key, children } = elem;
-        return diffOutput(children, [...accumulator, key], depth + 1);
-      }
-
       const {
-        key, value1, value2,
+        key,
+        type,
       } = elem;
-      const strVal1 = stringifyValue(value1);
-      const strVal2 = stringifyValue(value2);
-      const currentKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
-      if (type === 'added') {
-        return `Property ${currentKey} was added with value: ${strVal1}`;
+
+      const accumKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
+
+      switch (type) {
+        case 'nested':
+          return diffOutput(elem.children, [...accumulator, key], depth + 1);
+
+        case 'added':
+          return [
+            'Property ',
+            accumKey,
+            ' was added with value: ',
+            stringify(elem.value),
+          ].join('');
+
+        case 'removed':
+          return `Property ${accumKey} was removed`;
+
+        case 'updated':
+          return [
+            'Property ',
+            accumKey,
+            ' was updated. From ',
+            stringify(elem.value1),
+            ' to ',
+            stringify(elem.value2),
+          ].join('');
+
+        default:
+          return null;
       }
-      if (type === 'removed') {
-        return `Property ${currentKey} was removed`;
-      }
-      if (type === 'updated') {
-        return `Property ${currentKey} was updated. From ${strVal1} to ${strVal2}`;
-      }
-      return '';
     });
-    return result.filter((el) => el.length).join('\n');
+    const filtered = result.filter((el) => el !== null);
+    return filtered.join('\n');
   };
 
-  return diffOutput(diffArr, [], 1);
+  return diffOutput(AST, [], 1);
 };
 export default plain;
