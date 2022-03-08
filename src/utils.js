@@ -1,22 +1,14 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import _ from 'lodash';
 
 /**
  * @param {string} filepath
  * @returns {string}
  */
-export const getFilePath = (filepath) => path.resolve(filepath);
+export const readFile = (filepath) => readFileSync(path.resolve(filepath), 'utf-8');
 
 /**
- * @param {string} file
- * @param {Function} fn
+ * @param {string} filepath
  * @returns {string}
  */
-export const readFile = (file, fn) => readFileSync(fn(file), 'utf-8');
-
-/**
- * @param {*} obj
- * @returns {boolean}
- */
-export const isObject = (obj) => _.isObject(obj) && !_.isArray(obj);
+export const getFileFormat = (filepath) => path.extname(filepath).slice(1);

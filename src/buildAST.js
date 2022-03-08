@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { isObject } from './utils.js';
 
 /**
  * @param {Object} obj1
@@ -10,7 +9,7 @@ const buildAST = (obj1, obj2) => {
   const mergedKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
 
   const result = _.sortBy([...mergedKeys], (key) => key).map((key) => {
-    if (isObject(obj1[key]) && isObject(obj2[key])) {
+    if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
       return {
         key,
         children: buildAST(obj1[key], obj2[key]),
@@ -21,14 +20,14 @@ const buildAST = (obj1, obj2) => {
     if (!_.has(obj1, key)) {
       return {
         key,
-        value1: obj2[key],
+        value: obj2[key],
         type: 'added',
       };
     }
     if (!_.has(obj2, key)) {
       return {
         key,
-        value1: obj1[key],
+        value: obj1[key],
         type: 'removed',
       };
     }
@@ -42,7 +41,7 @@ const buildAST = (obj1, obj2) => {
     }
     return {
       key,
-      value1: obj1[key],
+      value: obj1[key],
       type: 'unchanged',
     };
   });
