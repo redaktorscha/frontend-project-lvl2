@@ -1,7 +1,20 @@
+import { readFileSync } from 'fs';
+import path from 'path';
 import parse from './parsers.js';
 import buildAST from './buildAST.js';
 import chooseFormatter from './formatters/index.js';
-import { readFile, getFileFormat } from './utils.js';
+
+/**
+ * @param {string} filepath
+ * @returns {string}
+ */
+const readFile = (filepath) => readFileSync(path.resolve(filepath), 'utf-8');
+
+/**
+ * @param {string} filepath
+ * @returns {string}
+ */
+const getFileFormat = (filepath) => path.extname(filepath).slice(1);
 /**
  * @param {string} filepath1
  * @param {string} filepath2
@@ -20,9 +33,9 @@ const genDiff = (filepath1, filepath2, formatterName = 'stylish') => {
 
   const formatter = chooseFormatter(formatterName);
 
-  const diffAST = buildAST(data1, data2);
+  const internalTree = buildAST(data1, data2);
 
-  return formatter(diffAST);
+  return formatter(internalTree);
 };
 
 export default genDiff;

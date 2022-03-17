@@ -15,15 +15,14 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 /**
  * @param {string} file
- * @param {Function} fn
  * @returns {string}
  */
 const readFixture = (file) => readFileSync(getFixturePath(file), 'utf-8').trim();
 
 describe('working with built-in formatters', () => {
-  const fixtureStringStylish = readFixture('diffStylish', getFixturePath);
-  const fixtureStringPlain = readFixture('diffPlain', getFixturePath);
-  const fixtureStringJson = readFixture('diffJson', getFixturePath);
+  const fixtureStringStylish = readFixture('diffStylish');
+  const fixtureStringPlain = readFixture('diffPlain');
+  const fixtureStringJson = readFixture('diffJson');
 
   test.each(['yaml', 'json'])(
     'should return a diff str when comparing %s',
