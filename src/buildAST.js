@@ -8,7 +8,7 @@ import _ from 'lodash';
 const buildAST = (obj1, obj2) => {
   const mergedKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
 
-  const result = _.sortBy([...mergedKeys], (key) => key).map((key) => {
+  const result = _.sortBy([...mergedKeys]).map((key) => {
     if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
       return {
         key,
