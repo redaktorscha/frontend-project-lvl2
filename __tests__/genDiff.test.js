@@ -8,22 +8,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 /**
- * @param {string} file
- * @param {Function} fn
- * @returns {string}
- */
-const readFile = (file, fn) => readFileSync(fn(file), 'utf-8');
-
-/**
  * @param {string} filename
  * @returns {string}
  */
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
+/**
+ * @param {string} file
+ * @param {Function} fn
+ * @returns {string}
+ */
+const readFixture = (file) => readFileSync(getFixturePath(file), 'utf-8').trim();
+
 describe('working with built-in formatters', () => {
-  const fixtureStringStylish = readFile('diffStylish', getFixturePath).trim();
-  const fixtureStringPlain = readFile('diffPlain', getFixturePath).trim();
-  const fixtureStringJson = readFile('diffJson', getFixturePath).trim();
+  const fixtureStringStylish = readFixture('diffStylish', getFixturePath);
+  const fixtureStringPlain = readFixture('diffPlain', getFixturePath);
+  const fixtureStringJson = readFixture('diffJson', getFixturePath);
 
   test.each(['yaml', 'json'])(
     'should return a diff str when comparing %s',
