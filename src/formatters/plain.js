@@ -1,9 +1,12 @@
 /**
  * @param {*} value
- * @returns {string}
+ * @returns {string | null}
  */
 const stringify = (value) => {
-  if (typeof value === 'object' && value !== null) {
+  if (value === null) {
+    return null;
+  }
+  if (typeof value === 'object') {
     return '[complex value]';
   }
   if (typeof value === 'string') {
@@ -13,58 +16,50 @@ const stringify = (value) => {
 };
 
 /**
- * @param {Array} AST
- * @returns {string}
+ * @param {Array} ast
+ * @returns {string | Error}
  */
-const plain = (AST) => {
+const plain = (ast) => {
   /**
-   * @param {Array} arr
+   * @param {Array} nodes
    * @param {Array} accumulator
    * @param {number} depth
-   * @returns {string}
+   * @returns {string | Error}
    */
-  const diffOutput = (arr, accumulator, depth) => {
-    const result = arr.map((elem) => {
+  const iter = (nodes, accumulator, depth) => {
+    const result = nodes.map((elem) => {
       const {
         key,
         type,
       } = elem;
 
-      const accumKey = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
+      const propertyName = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
 
       switch (type) {
         case 'nested':
-          return diffOutput(elem.children, [...accumulator, key], depth + 1);
+          return iter(elem.children, [...accumulator, key], depth + 1);
 
         case 'added':
-          return [
-            'Property ',
-            accumKey,
-            ' was added with value: ',
-            stringify(elem.value),
-          ].join('');
+          return `Property ${propertyName} was added with value: ${stringify(elem.value)}`;
 
         case 'removed':
-          return `Property ${accumKey} was removed`;
+          return `Property ${propertyName} was removed`;
 
         case 'updated':
-          return [
-            'Property ',
-            accumKey,
-            ' was updated. From ',
-            stringify(elem.value1),
-            ' to ',
-            stringify(elem.value2),
-          ].join('');
+          // eslint-disable-next-line max-len
+          return `Property ${propertyName} was updated. From ${stringify(elem.value1)} to ${stringify(elem.value2)}`;
+
+        case 'unchanged':
+          return null;
 
         default:
-          return null;
+          throw new Error('unknown node type');
       }
     });
     const filtered = result.filter((el) => el !== null);
     return filtered.join('\n');
   };
 
-  return diffOutput(AST, [], 1);
+  return iter(ast, [], 1);
 };
 export default plain;

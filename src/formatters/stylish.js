@@ -5,20 +5,20 @@ const baseIndent = 4;
 const tagSize = 2;
 
 /**
- * @param {Array} AST
- * @returns {string}
+ * @param {Array} ast
+ * @returns {string | Error}
  */
-const stylish = (AST) => {
+const stylish = (ast) => {
   /**
-   * @param {Object} arr
+   * @param {Object} nodes
    * @param {number} depth
    * @returns {string}
    */
-  const diffOutput = (arr, depth) => {
+  const iter = (nodes, depth) => {
     /**
      * @param {number} level
      * @param {boolean} [hasTag = false]
-     * @returns {string}
+     * @returns {string | Error}
      */
     const indent = (level, hasTag = false) => {
       const currentIndent = baseIndent * level;
@@ -39,14 +39,10 @@ const stylish = (AST) => {
        * @param {number} innerLevel
        * @returns {string}
        */
-      const recursiveStringify = (obj, innerLevel) => Object.keys(obj).map((key) => {
+      const inner = (obj, innerLevel) => Object.keys(obj).map((key) => {
         if (_.isPlainObject(obj[key])) {
-          return [
-            indent(innerLevel),
-            `${key}: {\n`,
-            recursiveStringify(obj[key], innerLevel + 1),
-            `\n${indent(innerLevel)}}`,
-          ].join('');
+          // eslint-disable-next-line max-len
+          return `${indent(innerLevel)}${key}: {\n${inner(obj[key], innerLevel + 1)}\n${indent(innerLevel)}}`;
         }
         return `${indent(innerLevel)}${key}: ${obj[key]}`;
       }).join('\n');
@@ -55,11 +51,11 @@ const stylish = (AST) => {
         return String(value);
       }
 
-      const result = recursiveStringify(value, innerDepth + 1);
+      const result = inner(value, innerDepth + 1);
       return `{\n${result}\n${indent(innerDepth)}}`;
     };
 
-    const result = arr.map((elem) => {
+    const result = nodes.map((elem) => {
       const {
         key,
         type,
@@ -67,47 +63,27 @@ const stylish = (AST) => {
 
       switch (type) {
         case 'nested':
-          return [
-            indent(depth),
-            `${key}: {\n`,
-            diffOutput(elem.children, depth + 1),
-            `\n${indent(depth)}}`,
-          ].join('');
+          return `${indent(depth)}${key}: {\n${iter(elem.children, depth + 1)}\n${indent(depth)}}`;
 
         case 'added':
-          return [
-            indent(depth, true),
-            '+ ',
-            `${key}: `,
-            `${stringify(elem.value, depth)}`,
-          ].join('');
+          return `${indent(depth, true)}+ ${key}: ${stringify(elem.value, depth)}`;
 
         case 'removed':
-          return [
-            indent(depth, true),
-            '- ',
-            `${key}: `,
-            `${stringify(elem.value, depth)}`,
-          ].join('');
+          return `${indent(depth, true)}- ${key}: ${stringify(elem.value, depth)}`;
 
         case 'updated':
-          return [
-            indent(depth, true),
-            '- ',
-            `${key}: `,
-            `${stringify(elem.value1, depth)}\n`,
-            indent(depth, true),
-            '+ ',
-            `${key}: `,
-            `${stringify(elem.value2, depth)}`,
-          ].join('');
+          return `${indent(depth, true)}- ${key}: ${stringify(elem.value1, depth)}\n`
+          + `${indent(depth, true)}+ ${key}: ${stringify(elem.value2, depth)}`;
+
+        case 'unchanged':
+          return `${indent(depth)}${key}: ${stringify(elem.value, depth)}`;
 
         default:
-          return `${indent(depth)}${key}: ${stringify(elem.value, depth)}`;
+          throw new Error('unknown node type');
       }
     });
     return result.join('\n');
   };
-  return `{\n${diffOutput(AST, 1)}\n}`;
+  return `{\n${iter(ast, 1)}\n}`;
 };
 export default stylish;
