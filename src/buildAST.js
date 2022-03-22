@@ -9,11 +9,26 @@ const buildAST = (obj1, obj2) => {
   const mergedKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
 
   const result = _.sortBy([...mergedKeys]).map((key) => {
-    if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
+    if (_.has(obj1, key) && _.has(obj2, key)) {
+      if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
+        return {
+          key,
+          children: buildAST(obj1[key], obj2[key]),
+          type: 'nested',
+        };
+      }
+      if (!_.isEqual(obj1[key], obj2[key])) {
+        return {
+          key,
+          value1: obj1[key],
+          value2: obj2[key],
+          type: 'updated',
+        };
+      }
       return {
         key,
-        children: buildAST(obj1[key], obj2[key]),
-        type: 'nested',
+        value: obj1[key],
+        type: 'unchanged',
       };
     }
 
@@ -31,19 +46,7 @@ const buildAST = (obj1, obj2) => {
         type: 'removed',
       };
     }
-    if (!_.isEqual(obj1[key], obj2[key])) {
-      return {
-        key,
-        value1: obj1[key],
-        value2: obj2[key],
-        type: 'updated',
-      };
-    }
-    return {
-      key,
-      value: obj1[key],
-      type: 'unchanged',
-    };
+    throw new Error('unexpected key');
   });
   return result;
 };
