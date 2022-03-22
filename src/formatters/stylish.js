@@ -39,13 +39,18 @@ const stylish = (ast) => {
        * @param {number} innerLevel
        * @returns {string}
        */
-      const inner = (obj, innerLevel) => Object.keys(obj).map((key) => {
-        if (_.isPlainObject(obj[key])) {
-          // eslint-disable-next-line max-len
-          return `${indent(innerLevel)}${key}: {\n${inner(obj[key], innerLevel + 1)}\n${indent(innerLevel)}}`;
-        }
-        return `${indent(innerLevel)}${key}: ${obj[key]}`;
-      }).join('\n');
+      const inner = (obj, innerLevel) => Object.keys(obj)
+        .map((key) => {
+          if (_.isPlainObject(obj[key])) {
+            return [
+              `${indent(innerLevel)}${key}: {`,
+              `${inner(obj[key], innerLevel + 1)}`,
+              `${indent(innerLevel)}}`]
+              .join('\n');
+          }
+          return `${indent(innerLevel)}${key}: ${obj[key]}`;
+        })
+        .join('\n');
 
       if (!_.isPlainObject(value)) {
         return String(value);
@@ -55,28 +60,28 @@ const stylish = (ast) => {
       return `{\n${result}\n${indent(innerDepth)}}`;
     };
 
-    const result = nodes.map((elem) => {
+    const result = nodes.map((node) => {
       const {
         key,
         type,
-      } = elem;
+      } = node;
 
       switch (type) {
         case 'nested':
-          return `${indent(depth)}${key}: {\n${iter(elem.children, depth + 1)}\n${indent(depth)}}`;
+          return `${indent(depth)}${key}: {\n${iter(node.children, depth + 1)}\n${indent(depth)}}`;
 
         case 'added':
-          return `${indent(depth, true)}+ ${key}: ${stringify(elem.value, depth)}`;
+          return `${indent(depth, true)}+ ${key}: ${stringify(node.value, depth)}`;
 
         case 'removed':
-          return `${indent(depth, true)}- ${key}: ${stringify(elem.value, depth)}`;
+          return `${indent(depth, true)}- ${key}: ${stringify(node.value, depth)}`;
 
         case 'updated':
-          return `${indent(depth, true)}- ${key}: ${stringify(elem.value1, depth)}\n`
-          + `${indent(depth, true)}+ ${key}: ${stringify(elem.value2, depth)}`;
+          return `${indent(depth, true)}- ${key}: ${stringify(node.value1, depth)}\n`
+          + `${indent(depth, true)}+ ${key}: ${stringify(node.value2, depth)}`;
 
         case 'unchanged':
-          return `${indent(depth)}${key}: ${stringify(elem.value, depth)}`;
+          return `${indent(depth)}${key}: ${stringify(node.value, depth)}`;
 
         default:
           throw new Error('unknown node type');

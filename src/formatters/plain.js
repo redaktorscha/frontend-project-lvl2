@@ -22,32 +22,33 @@ const stringify = (value) => {
 const plain = (ast) => {
   /**
    * @param {Array} nodes
-   * @param {Array} accumulator
+   * @param {Array} propertyPath
    * @param {number} depth
    * @returns {string | Error}
    */
-  const iter = (nodes, accumulator, depth) => {
-    const result = nodes.map((elem) => {
+  const iter = (nodes, propertyPath, depth) => {
+    const result = nodes.map((node) => {
       const {
         key,
         type,
-      } = elem;
+      } = node;
 
-      const propertyName = depth > 1 ? `'${[...accumulator, key].join('.')}'` : `'${key}'`;
+      const propertyName = depth > 1 ? `'${[...propertyPath, key].join('.')}'` : `'${key}'`;
 
       switch (type) {
         case 'nested':
-          return iter(elem.children, [...accumulator, key], depth + 1);
+          return iter(node.children, [...propertyPath, key], depth + 1);
 
         case 'added':
-          return `Property ${propertyName} was added with value: ${stringify(elem.value)}`;
+          return `Property ${propertyName} was added with value: ${stringify(node.value)}`;
 
         case 'removed':
           return `Property ${propertyName} was removed`;
 
         case 'updated':
-          // eslint-disable-next-line max-len
-          return `Property ${propertyName} was updated. From ${stringify(elem.value1)} to ${stringify(elem.value2)}`;
+          return [`Property ${propertyName} was updated.`,
+            `From ${stringify(node.value1)} to ${stringify(node.value2)}`]
+            .join(' ');
 
         case 'unchanged':
           return null;
@@ -56,7 +57,7 @@ const plain = (ast) => {
           throw new Error('unknown node type');
       }
     });
-    const filtered = result.filter((el) => el !== null);
+    const filtered = result.filter((node) => node !== null);
     return filtered.join('\n');
   };
 
