@@ -7,14 +7,25 @@ on:
     branches: [ main ]
 jobs:
   build:
-    runs-on: ubuntu-latest 
-    steps:    
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 16.x
       uses: actions/setup-node@v2
       with:
         node-version: '16.x'
-    - name: npm install
+    - name: get npm cache dir
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+    - name: cache npm dependencies
+      id: npm-cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+      if: steps.npm-cache.outputs.cache-hit != 'true'
       run: make install
     - name: linter check
       run: make lint
@@ -25,4 +36,3 @@ jobs:
       with:
         coverageCommand: make test-coverage
         debug: true
-      
