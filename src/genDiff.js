@@ -31,11 +31,11 @@ const genDiff = (filepath1, filepath2, formatterName = 'stylish') => {
   const data1 = parse(fileFormat1, fileContent1);
   const data2 = parse(fileFormat2, fileContent2);
 
-  const formatter = chooseFormatter(formatterName);
+  const formatOutput = chooseFormatter(formatterName);
 
   const internalTree = buildAST(data1, data2);
 
-  return formatter(internalTree);
+  return formatOutput(internalTree);
 };
 
 export default genDiff;
