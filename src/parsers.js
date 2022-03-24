@@ -3,7 +3,7 @@ import YAML from 'yaml';
 /**
  * @param {string} format
  * @param {string} content
- * @returns {Object | Error}
+ * @returns {Object}
  */
 const parse = (format, content) => {
   if (format === 'json') {

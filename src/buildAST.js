@@ -3,7 +3,7 @@ import _ from 'lodash';
 /**
  * @param {Object} obj1
  * @param {Object} obj2
- * @returns {Array}
+ * @returns {Array.<Object>}
  */
 const buildAST = (obj1, obj2) => {
   const mergedKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);

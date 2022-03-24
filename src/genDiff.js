@@ -1,3 +1,4 @@
+// @ts-check
 import { readFileSync } from 'fs';
 import path from 'path';
 import parse from './parsers.js';
@@ -15,7 +16,6 @@ const readFile = (filepath) => readFileSync(path.resolve(filepath), 'utf-8');
  * @returns {string}
  */
 const getFileFormat = (filepath) => path.extname(filepath).slice(1);
-
 /**
  * @param {string} filepath1
  * @param {string} filepath2

@@ -50,17 +50,17 @@ const stringify = (value, innerDepth) => {
 };
 
 /**
- * @param {Array} ast
- * @returns {string | Error}
+ * @param {Array.<Object>} ast
+ * @returns {string}
  */
 const stylish = (ast) => {
   /**
-   * @param {Object} nodes
+   * @param {Array.<Object>} nodes
    * @param {number} depth
-   * @returns {string | Error}
+   * @returns {string}
    */
   const iter = (nodes, depth) => {
-    const result = nodes.map((node) => {
+    const result = nodes.map((/** @type {Object} */ node) => {
       const {
         key,
         type,

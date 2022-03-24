@@ -16,18 +16,18 @@ const stringify = (value) => {
 };
 
 /**
- * @param {Array} ast
- * @returns {string | Error}
+ * @param {Array.<Object>} ast
+ * @returns {string}
  */
 const plain = (ast) => {
   /**
-   * @param {Array} nodes
+   * @param {Array.<Object>} nodes
    * @param {Array} propertyPath
    * @param {number} depth
-   * @returns {function(): string | Error}
+   * @returns {string}
    */
   const iter = (nodes, propertyPath, depth) => {
-    const result = nodes.map((node) => {
+    const result = nodes.map((/** @type {Object} */node) => {
       const {
         key,
         type,

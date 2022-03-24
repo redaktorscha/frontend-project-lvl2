@@ -9,7 +9,7 @@ const formatters = {
 
 /**
  * @param {string} formatterName
- * @returns {Function | Error}
+ * @returns {Function}
  */
 const chooseFormatter = (formatterName) => {
   if (!Object.keys(formatters).includes(formatterName)) {
