@@ -5,6 +5,51 @@ const baseIndent = 4;
 const tagSize = 2;
 
 /**
+     * @param {number} level
+     * @param {boolean} [hasTag = false]
+     * @returns {string}
+     */
+const indent = (level, hasTag = false) => {
+  const currentIndent = baseIndent * level;
+  if (hasTag) {
+    return ' '.repeat(currentIndent - tagSize);
+  }
+  return ' '.repeat(currentIndent);
+};
+
+/**
+ * @param {*} value
+ * @param {number} innerDepth
+ * @returns {string}
+ */
+const stringify = (value, innerDepth) => {
+  /**
+   * @param {Object} obj
+   * @param {number} innerLevel
+   * @returns {string}
+   */
+  const inner = (obj, innerLevel) => Object.keys(obj)
+    .map((key) => {
+      if (_.isPlainObject(obj[key])) {
+        return [
+          `${indent(innerLevel)}${key}: {`,
+          `${inner(obj[key], innerLevel + 1)}`,
+          `${indent(innerLevel)}}`]
+          .join('\n');
+      }
+      return `${indent(innerLevel)}${key}: ${obj[key]}`;
+    })
+    .join('\n');
+
+  if (!_.isPlainObject(value)) {
+    return String(value);
+  }
+
+  const result = inner(value, innerDepth + 1);
+  return `{\n${result}\n${indent(innerDepth)}}`;
+};
+
+/**
  * @param {Array} ast
  * @returns {string | Error}
  */
@@ -12,54 +57,9 @@ const stylish = (ast) => {
   /**
    * @param {Object} nodes
    * @param {number} depth
-   * @returns {string}
+   * @returns {string | Error}
    */
   const iter = (nodes, depth) => {
-    /**
-     * @param {number} level
-     * @param {boolean} [hasTag = false]
-     * @returns {string | Error}
-     */
-    const indent = (level, hasTag = false) => {
-      const currentIndent = baseIndent * level;
-      if (hasTag) {
-        return ' '.repeat(currentIndent - tagSize);
-      }
-      return ' '.repeat(currentIndent);
-    };
-
-    /**
-     * @param {*} value
-     * @param {number} innerDepth
-     * @returns {string}
-     */
-    const stringify = (value, innerDepth) => {
-      /**
-       * @param {Object} obj
-       * @param {number} innerLevel
-       * @returns {string}
-       */
-      const inner = (obj, innerLevel) => Object.keys(obj)
-        .map((key) => {
-          if (_.isPlainObject(obj[key])) {
-            return [
-              `${indent(innerLevel)}${key}: {`,
-              `${inner(obj[key], innerLevel + 1)}`,
-              `${indent(innerLevel)}}`]
-              .join('\n');
-          }
-          return `${indent(innerLevel)}${key}: ${obj[key]}`;
-        })
-        .join('\n');
-
-      if (!_.isPlainObject(value)) {
-        return String(value);
-      }
-
-      const result = inner(value, innerDepth + 1);
-      return `{\n${result}\n${indent(innerDepth)}}`;
-    };
-
     const result = nodes.map((node) => {
       const {
         key,

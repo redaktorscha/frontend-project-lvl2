@@ -24,7 +24,7 @@ const plain = (ast) => {
    * @param {Array} nodes
    * @param {Array} propertyPath
    * @param {number} depth
-   * @returns {string | Error}
+   * @returns {function(): string | Error}
    */
   const iter = (nodes, propertyPath, depth) => {
     const result = nodes.map((node) => {
