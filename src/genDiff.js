@@ -15,6 +15,7 @@ const readFile = (filepath) => readFileSync(path.resolve(filepath), 'utf-8');
  * @returns {string}
  */
 const getFileFormat = (filepath) => path.extname(filepath).slice(1);
+
 /**
  * @param {string} filepath1
  * @param {string} filepath2
@@ -31,11 +32,11 @@ const genDiff = (filepath1, filepath2, formatterName = 'stylish') => {
   const data1 = parse(fileFormat1, fileContent1);
   const data2 = parse(fileFormat2, fileContent2);
 
-  const formatOutput = chooseFormatter(formatterName);
+  const format = chooseFormatter(formatterName);
 
   const internalTree = buildAST(data1, data2);
 
-  return formatOutput(internalTree);
+  return format(internalTree);
 };
 
 export default genDiff;
