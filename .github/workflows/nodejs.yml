@@ -26,7 +26,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
     - name: npm install
-      if: steps.npm-cache.outputs.cache-hit != 'true'
       run: make install
     - name: linter check
       run: make lint
